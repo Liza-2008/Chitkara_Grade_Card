@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script>
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "log-in page.html";
+        }
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Chitkara University</title>
+    <style>
+        /* Top blue strip like CUIMS */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #3e6ea9;
+    z-index: -1;
+}
+
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9edf2;
+    color: #333;
+}
+
+.page-card {
+    width: 1100px;              /* fixed width like screenshot */
+    margin: 25px auto;          /* center horizontally */
+    background: #ffffff;
+
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+
+    padding: 20px 15px;
+}
+
+/* Top Bar */
+.top-header {
+    background-color: #3a5a7a;
+    color: white;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 12px;
+}
+.top-header span { margin-left: 15px; cursor: pointer; }
+.session-select { margin-right: 20px; }
+
+/* Branding Header */
+/* 🔥 FINAL HEADER (Exact Layout like Screenshot) */
+/* 🔥 ORIGINAL STYLE HEADER (PORTAL STYLE) */
+
+.main-header {
+    background-color: #fffcfc;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #cfcfcf;
+    font-family: Verdana, Arial, sans-serif;
+}
+
+/* layout like table */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEFT SIDE */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* LOGO IMAGE (contains text + line already) */
+.header-left img {
+    height: 100px;
+}
+
+/* RIGHT SIDE */
+.header-right {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #333;
+}
+
+/* TEXT INFO */
+.profile-info {
+    text-align: right;
+    line-height: 1.4;
+    margin-right: 10px;
+}
+
+.profile-info b {
+    font-size: 12px;
+}
+
+/* PROFILE IMAGE */
+.profile-photo {
+    width: 60px;          /* slightly smaller */
+    height: 60px;
+    border-radius: 50%;   /* 🔥 makes it circle */
+    object-fit: cover;    /* keeps face proper */
+    border: none;         /* remove box border */
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    background: linear-gradient(to bottom, #7da1d3 0%, #3e6ea9 100%);
+    border: 1.5px solid #2e5989;
+    border-radius: 25px;
+    overflow: hidden;
+    height: 42px;
+    margin-top: 10px;
+}
+.navbar a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+
+    border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.navbar a:last-child {
+    border-right: none;
+}
+.navbar a.active {
+    background-color: rgba(0,0,0,0.2);
+}
+
+/* Content Area */
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.breadcrumb {
+    font-size: 12px;
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.tabs { margin-bottom: 15px; }
+.tab-btn {
+    padding: 5px 15px;
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+    font-size: 12px;
+}
+.tab-btn.active {
+    background: white;
+    border-bottom: none;
+    font-weight: bold;
+}
+
+/* Personal Details */
+.student-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 100px;
+    font-size: 12px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+.detail-btn {
+    background: #4a78a0;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+/* Grade Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+th {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+}
+.gpa-row {
+    text-align: right;
+    font-weight: bold;
+    padding: 8px;
+    background: #fdfdfd;
+}
+
+/* ✅ FIXED NOTES SECTION (Bluish like screenshot) */
+.notes-section {
+    background-color: #eef3f8;     /* 🔵 bluish background */
+    border: 1px solid #d6dde5;
+    font-size: 11px;
+    margin-top: 30px;
+    padding: 15px 18px;
+    line-height: 1.6;
+}
+.notes-section ul {
+    padding-left: 20px;
+    margin: 8px 0 0 0;
+}
+
+/* ✅ FIXED FOOTER (NO blue background now) */
+.footer {
+    background-color: transparent;     /* ❌ removed blue */
+    border-top: 1px dotted #a5b6c7;
+    margin-top: 40px;
+    padding: 10px 0 20px 0;
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+}
+
+.footer-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.footer-logo {
+    display: inline-flex;
+    align-items: center;
+}
+
+.bar {
+    width: 3px;
+    height: 12px;
+    margin-right: 2px;
+}
+.bar-green  { background-color: #4caf50; }
+.bar-yellow { background-color: #ffeb3b; }
+.bar-red    { background-color: #f44336; }
+.bar-blue   { background-color: #2196f3; }
+
+.logo-text {
+    font-weight: bold;
+    color: #000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-left: 3px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .main-header,
+    .student-details {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .student-profile {
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .navbar a {
+        flex-grow: 1;
+        text-align: center;
+    }
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="page-card">
+    <div class="top-header">
+        <div class="session-select">Session: <select><option>JanJun2026</option></select></div>
+        <!-- <span>🔔 99+</span>
+        <span>⚙️</span>
+        <span>👤</span>
+        <span>🚪 Logout</span> -->
+    </div>
+
+    <div class="main-header">
+
+    <div class="header-row">
+
+        <!-- LEFT (FULL LOGO IMAGE) -->
+        <div class="header-left">
+            <!-- ⚠️ IMPORTANT: Use ORIGINAL logo image -->
+            <img src="images/Chitkara_logo.png">
+        </div>
+
+        <!-- RIGHT -->
+        <div class="header-right">
+
+            <div class="profile-info">
+                <b>LIZA KALRA</b><br>
+                Roll No: 2410990525<br>
+                Mentor Name:<br>
+                Mentor Email:<br>
+                Mentor Mobile No.:
+            </div>
+
+            <img src="images/profile.png" class="profile-photo">
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- Navigation Bar [1] -->
+    <nav class="navbar">
+    <a href="home.html">Home</a>
+    <a href="#">My Info</a>
+    <a href="#">Communication</a>
+    <a href="Liza_Kalra.html" class="active">Performance</a>
+    <a href="#">Image Gallery</a>
+    <a href="#">Student<br>Grievance Form</a>
+    <a href="#">Change Password</a>
+    <a href="#">LMS</a>
+</nav>
+
+    <div class="container">
+
+        <div class="tabs">
+            <button class="tab-btn active">Grade Card</button>
+        </div>
+
+        <div class="student-details">
+            <div>
+                Name: <b>LIZA KALRA</b><br>
+                Father's Name: <b>Mr. Mohan Lal Kalra</b><br>
+                Class Name: <b>2024-BE-CSE-SEM-4</b>
+            </div>
+            <div>
+                Roll No.: <b>2410990525</b><br>
+                Mother's Name: <b>Dr. Renu Bala Kalra</b>
+            </div>
+        </div>
+
+<!-- SEM 1 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>SEM 1</th><th>Subject Code</th><th>Subject Name</th><th>Credits</th><th>Grade</th><th>Study Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>24CSC0208</td><td>CALCULUS AND STATISTICAL ANALYSIS</td><td>6.00</td><td>A</td><td>3 SEM</td></tr>
+                <tr><td>2</td><td>24CSC0209</td><td>PROBLEM SOLVING USING PYTHON PROGRAMMING</td><td>3.00</td><td>A</td><td>3 SEM</td></tr>
+                <tr><td>3</td><td>24CSC0210</td><td>FRONT END ENGINEERING -I</td><td>3.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>4</td><td>24CSC0211</td><td>DIGITAL ELECTRONICS AND COMPUTER ARCHITECTURE</td><td>3.00</td><td>A</td><td>3 SEM</td></tr>
+                <tr><td>5</td><td>24ECE0202</td><td>ENVIRONMENTAL SOCIAL AND GOVERNANCE -I</td><td>4.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>6</td><td>24MDC0116</td><td>DISASTER MANAGEMENT</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+            </tbody>
+        </table>
+        <div class="gpa-row">SGPA: 8.0 &nbsp;&nbsp; CGPA: 8.0</div>
+
+        <!-- SEM 2 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>SEM 2</th><th>Subject Code</th><th>Subject Name</th><th>Credits</th><th>Grade</th><th>Study Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>24CSC0208</td><td>MODERN AND COMPUTATIONAL PHYSICS</td><td>6.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>2</td><td>24CSC0209</td><td>DIFFERENTIAL EQUATIONS AND TRANSFORMATIONS</td><td>3.00</td><td>A</td><td>3 SEM</td></tr>
+                <tr><td>3</td><td>24CSC0210</td><td>OPERATING SYSTEM</td><td>3.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>4</td><td>24CSC0211</td><td>SOURCE CODE MANAGEMENT</td><td>3.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>5</td><td>24ECE0202</td><td>FUNDAMENTALS OF C PROGRAMMING</td><td>4.00</td><td>A</td><td>3 SEM</td></tr>
+                <tr><td>6</td><td>24MDC0116</td><td>INDIAN KNOWLEDGE SYSTEM</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>7</td><td>24UNI0105</td><td>ENVIRONMENTAL SOCIAL AND GOVERNANCE -II</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>8</td><td>24UNI0105</td><td>ENVIRONMENTAL STUDIES</td><td>2.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>9</td><td>24UNI0105</td><td>THE RUDMENTS OF ARTIFICIAL INTELLIGENCE, CHATGPT, DEEPSEEK, GROK AND METAVERSE</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+            </tbody>
+        </table>
+        <div class="gpa-row">SGPA: 8.5 &nbsp;&nbsp; CGPA: 8.3</div>
+
+        <!-- SEM 3 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>SEM 3</th><th>Subject Code</th><th>Subject Name</th><th>Credits</th><th>Grade</th><th>Study Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>24CSC0208</td><td>DATA STRUCTURES USING OBJECT ORIENTED PROGRAMMING -I</td><td>6.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>2</td><td>24CSC0209</td><td>DATABASE MANAGEMENT SYSTEM</td><td>3.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>3</td><td>24CSC0210</td><td>OBJECT ORIENTED SOFTWARE ENGINEERING</td><td>3.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>4</td><td>24CSC0211</td><td>FRONT-END ENGINEERING-II</td><td>3.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>5</td><td>24ECE0202</td><td>EMBEDDED SYSTEMS AND IOT</td><td>4.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>6</td><td>24MDC0116</td><td>IPR AND CYBER LAWS -I</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>7</td><td>24UNI0105</td><td>HUMAN VALUES & PROFESSIONAL ETHICS</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+            </tbody>
+        </table>
+        <div class="gpa-row">SGPA: 8.8 &nbsp;&nbsp; CGPA: 8.5</div>
+
+        <!-- SEM 4 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>SEM 4</th><th>Subject Code</th><th>Subject Name</th><th>Credits</th><th>Grade</th><th>Study Period</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>24CSC0208</td><td>DISCRETE STRUCTURES</td><td>6.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>2</td><td>24CSC0209</td><td>DATA STRUCTURES USING OBJECT ORIENTED PROGRAMMING -II</td><td>3.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>3</td><td>24CSC0210</td><td>LINUX ADMINISTRATION</td><td>3.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>4</td><td>24CSC0211</td><td>BACKEND ENGINEERING -I</td><td>3.00</td><td>A+</td><td>3 SEM</td></tr>
+                <tr><td>5</td><td>24ECE0202</td><td>COMPUTER NETWORKS</td><td>4.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>6</td><td>24MDC0116</td><td>INDUSTRY IMMERSION SERIES -I</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>7</td><td>24UNI0105</td><td>BLOCK CHAIN - FOUNDATION AND SCOPE PRACTICES</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+                <tr><td>8</td><td>24UNI0105</td><td>CYBER SECURITY</td><td>2.00</td><td>O</td><td>3 SEM</td></tr>
+            </tbody>
+        </table>
+        <div class="gpa-row">SGPA: 9.4 &nbsp;&nbsp; CGPA: 9.0</div>
+
+        <div class="notes-section">
+            <b>Note:</b>
+            <ul>
+                <li>The University does not own for the error or omission, if any, in the statement. The marks in the record of the University are final.</li><br>
+                <li>In case of any discrepancy in Name, Father's name, Mother's name, Course Code, Course Name, Credit, SGPA & CGPA, kindly submit an application with relevant documents in the Examination Department duly forwarded by the Dean within 7 working days.</li><br>
+                <li>Student can apply for re-evaluation of theory external examination within 15 days of the date of declaration of result with prescribed fee.</li><br>
+                <li>Abbreviations: "F" means Fail, "I" means Incomplete, "E1" means Internal Re-appear, "E2" means External Re-appear & "E3" means Internal & External Re-appear.</li><br>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer">
+    <div class="footer-content">
+        <span class="footer-text">Powered by</span>
+
+        <div class="footer-logo">
+            <div class="bar bar-green"></div>
+            <div class="bar bar-yellow"></div>
+            <div class="bar bar-red"></div>
+            <div class="bar bar-blue"></div>
+            <span class="logo-text">CODE</span>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

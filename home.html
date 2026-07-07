@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script>
+if (localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "log-in page.html";
+}
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Portal - Competition Entry</title>
+    <!-- Font Awesome for exact icons from the screenshot -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* CSS Integrated directly for immediate use */
+
+        body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #3e6ea9;
+    z-index: -1;
+}
+
+        body {
+    background-color: #e9edf2;   /* light grey background like CUIMS */
+}
+
+/* MAIN CARD */
+.page-card {
+    width: 1100px;              /* fixed width like screenshot */
+    margin: 25px auto;          /* center horizontally */
+    background: #ffffff;
+
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+
+    padding: 20px 15px;
+}
+
+        /* Top Header Section */
+        .header {
+            display: flex;
+            margin-bottom: 10px;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eeeeee;
+        }
+
+        .logo-container img {
+            height: 100px;
+        }
+
+        .student-profile {
+            display: flex;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;     /* makes it circle */
+    object-fit: cover;      /* keeps image properly fitted */
+    border: 2px solid #ddd; /* optional nice border */
+}
+
+        .student-details {
+            font-size: 11px;
+            color: #777777;
+            line-height: 1.4;
+        }
+
+        .student-details strong {
+            color: #333;
+            font-size: 13px;
+        }
+
+        .logout-btn {
+    padding: 4px 10px;        /* small size */
+    font-size: 12px;
+    background-color: #3e6ea9; /* CUIMS blue */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    
+    height: 28px;             /* control height */
+    align-self: center;       /* center vertically */
+}
+
+        /* Sub-navigation Area */
+        .sub-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            font-size: 13px;
+        }
+
+        .calendar-link {
+            color: #a94442;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .lookup-box label {
+            margin-right: 8px;
+            color: #555;
+        }
+
+        .lookup-box input {
+            border: 1px solid #cccccc;
+            padding: 5px;
+            width: 210px;
+        }
+
+        /* Navigation Bar with Gradient Buttons */
+        .navbar {
+    display: flex;
+    background: linear-gradient(to bottom, #7da1d3 0%, #3e6ea9 100%);
+    border: 1.5px solid #2e5989;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 42px;   /* fixed height gives perfect centering */
+}
+
+        .nav-item {
+    flex: 1;
+    display: flex;              /* IMPORTANT */
+    align-items: center;        /* vertical center */
+    justify-content: center;    /* horizontal center */
+    
+    padding: 8px 6px;           /* better spacing */
+    color: white;
+    font-weight: bold;
+    font-size: 11.5px;
+    text-align: center;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+        .nav-item:last-child {
+            border-right:none;
+        }
+
+        /* Disable all buttons */
+.nav-item {
+    pointer-events: none;
+}
+
+/* Enable Home (1st) and Performance (4th) */
+.nav-item:nth-child(1),
+.nav-item:nth-child(4) {
+    pointer-events: auto;
+}
+
+        /* Timeline Header */
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 12px;
+        }
+
+        .timeline-circle-icon {
+            background-color: #5d8aa8;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeline-header h2 {
+            font-size: 18px;
+            margin: 0;
+            color: #444;
+        }
+
+        /* Main Content Layout */
+        .main-content {
+            display: flex;
+            margin-top: 35px;
+            gap: 50px;
+        }
+
+        /* Left Column: Timeline */
+        .timeline-area {
+    flex: 3;
+    border-left: 2px solid #d9dee3;
+    padding-left: 25px;   /* more gap from line */
+    margin-left: 160px;   /* IMPORTANT: push content right */
+    position: relative;
+}
+
+        .date-separator {
+            text-align: center;
+            position: relative;
+            top: -10px;
+            margin-bottom: 40px;
+        }
+
+        .date-separator span {
+            background: #ffffff;
+            padding: 0 20px;
+            font-size: 19px;
+            color: #555;
+        }
+
+        .timeline-entry {
+            position: relative;
+            margin-bottom: 55px;
+        }
+
+        /* Circular Labels and Icons on the Left */
+        .circular-marker {
+    position: absolute;
+    left: -155px;  /* align properly */
+    top: 2px;
+    display: flex;
+    align-items: center;
+}
+
+        .circular-label {
+            color: #438e73;
+            font-weight: bold;
+            font-size: 12px;
+            width: 65px;
+            text-align: right;
+        }
+
+        .green-line {
+            width: 22px;
+            height: 1px;
+            background-color: #438e73;
+            margin: 0 8px;
+        }
+
+        .green-circle {
+            width: 38px;
+            height: 38px;
+            background-color: #589b83;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #589b83;
+        }
+
+        /* Item content details */
+        .entry-details {
+            position: relative;
+        }
+
+        .entry-title {
+            font-size: 13.5px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            color: #333;
+            padding-right: 60px;
+        }
+
+        .entry-desc {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+        }
+
+        .entry-desc a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+
+        .unread-tag {
+            background-color: #c9302c;
+            color: white;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            position: absolute;
+            right: 0;
+            top: 2px;
+        }
+
+        /* Right Column: Small Boxes */
+        .sidebar {
+            flex: 1;
+        }
+
+        .sidebar-section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            color: #3e6ea9;
+            font-weight: bold;
+            font-size: 13.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-links {
+            border-left: 4px solid #f3f3f3;
+            padding-left: 12px;
+        }
+
+        .section-links a, .link-text {
+            display: block;
+            text-decoration: none;
+            color: #666;
+            font-size: 12.5px;
+            margin-bottom: 16px;
+        }
+
+        .new-tag {
+            background-color: #f0ad4e;
+            color: white;
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        .filter-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            color: #666;
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .filter-num {
+            color: #3e6ea9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-card">
+    <!-- Header containing Logo and Student Info [1] -->
+    <header class="header">
+        <div class="logo-container">
+            <img src="images/Chitkara_logo.png" alt="Chitkara Logo">
+        </div>
+        <div class="student-profile">
+            <!-- Space for student picture [1] -->
+            <img src="images/profile.png" class="profile-pic">
+            <div class="student-details">
+                <strong>LIZA KALRA</strong><br>
+                Roll No: 2410990525<br>
+                Mentor Name:<br>
+                Mentor Email:<br>
+                Mentor Mobile No.:
+            </div>
+        <button onclick="logout()" class="logout-btn">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+</div>
+
+    </header>
+
+    <!-- Sub-navigation for Calendar and Lookup [1] -->
+    <div class="sub-nav">
+        <div class="calendar-link">
+            <i class="fa-regular fa-calendar-days"></i> My Calendar
+        </div>
+        <div class="lookup-box">
+            <label>Menu Option Lookup</label>
+            <input type="text" placeholder="Type here to find menu option">
+        </div>
+    </div>
+
+    <!-- Navigation Bar [1] -->
+    <nav class="navbar">
+        <div class="nav-item" onclick="goToHome()">Home</div>
+        <div class="nav-item">My Info</div>
+        <div class="nav-item">Communication</div>
+        <div class="nav-item" onclick="goToPerformance()">Performance</div>
+        <div class="nav-item">Image Gallery</div>
+        <div class="nav-item">Student<br>Grievance Form</div>
+        <div class="nav-item">Change Password</div>
+        <div class="nav-item">LMS</div>
+    </nav>
+
+    <!-- Timeline Title [1] -->
+    <div class="timeline-header">
+        <div class="timeline-circle-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
+        <h2>My Timeline</h2>
+    </div>
+
+    <div class="main-content">
+        <!-- Left Column: Timeline with Circles [1] -->
+        <main class="timeline-area">
+            <div class="date-separator">
+                <span>Mar 21, Saturday</span>
+            </div>
+
+            <!-- Timeline Item 1 -->
+            <div class="timeline-entry">
+                <div class="circular-marker">
+                    <span class="circular-label">Circular</span>
+                    <div class="green-line"></div>
+                    <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+                </div>
+                <div class="entry-details">
+                    <h3 class="entry-title">Datesheet for BE (CSE) B'2023 Group-33 End Term Examinations, March - May 2026.</h3>
+                    <p class="entry-desc">Datesheet for BE (CSE) B'2023 Group-33 End Term Examinations, March - May 2026. <a href="#">More</a></p>
+                    <span class="unread-tag">Unread</span>
+                </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="timeline-entry">
+                <div class="circular-marker">
+                    <span class="circular-label">Circular</span>
+                    <div class="green-line"></div>
+                    <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+                </div>
+                <div class="entry-details">
+                    <h3 class="entry-title">2nd Edition Chitkara Badminton Tournament</h3>
+                    <p class="entry-desc">2nd Edition Chitkara Badminton Tournament <a href="#">More</a></p>
+                    <span class="unread-tag">Unread</span>
+                </div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+<div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">2nd Edition Chitkara Badminton Tournament</h3>
+        <p class="entry-desc">2nd Edition Chitkara Badminton Tournament <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+
+<!-- Timeline Item 4 -->
+<div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">Seating Plan 21.03.2026 Evening Session</h3>
+        <p class="entry-desc">Seating Plan 21.03.2026 Evening Session <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+
+<!-- Timeline Item 5 -->
+<div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">BE CSE Batch 2024 4th Sem Announcement- FA4 of DSOOPS-II</h3>
+        <p class="entry-desc">BE CSE Batch 2024 4th Sem Announcement- FA4 of DSOOPS-II <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+
+<!-- Timeline Item 6 -->
+<div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">Updated Time Table BE-CSE-2024-4th Sem (i-Beta Cluster) W.e.f. 23-03-2026</h3>
+        <p class="entry-desc">Updated Time Table BE-CSE-2024-4th Sem (i-Beta Cluster) W.e.f. 23-03-2026 <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+
+<div class="date-separator">
+    <span>Mar 20, Friday</span>
+</div>
+
+<!-- Timeline Item 1 -->
+<div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">BE-CSE-2024 4th Sem : Notice regarding the test announcement for FA-4 of Data</h3>
+        <p class="entry-desc">BE-CSE-2024 4th Sem : Notice regarding the test announcement for FA-4 of Data <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+
+<!-- Timeline Item 2 -->
+ <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">BE CSE Batch 2024 Sem 4th Seating Plan ES&IOT; (24ESE0202) i-Beta Cluster</h3>
+        <p class="entry-desc">BE CSE Batch 2024 Sem 4th Seating Plan ES&IOT (24ESE0202) i-Beta Cluster <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+ <!-- Timeline Item 3 -->
+  <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">Updated Seating Plan 21.03.2026 Morning Session</h3>
+        <p class="entry-desc">Updated Seating Plan 21.03.2026 Morning Session <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+  <!-- Timeline Item 4 -->
+   <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">REGULAR RESULT OF BE CSE BATCH 2024 3RD SEM</h3>
+        <p class="entry-desc">The Regular result(s) of the following programs have been declared; 1. BE CSE BATCH 2024 3RD SEM DECEMBER 2025 <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+   <!-- Timeline Item 5 -->
+    <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">BE CSE Batch 2024 Sem 4th Seating Plan ES&IOT; (24ESE0202)</h3>
+        <p class="entry-desc">BE CSE Batch 2024 Sem 4th Seating Plan ES&IOT (24ESE0202) <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+
+<div class="date-separator">
+    <span>Mar 19, Thursday</span>
+</div>
+    <!-- Timeline Item 1 -->
+     <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">REGULAR RESULT OF BE EE AND EE MINOR CSE BATCH 2025</h3>
+        <p class="entry-desc">The Regular result(s) of the following programs have been declared; 1. BE EE BATCH 2025 1ST SEM DECEMBER 2025 2. BE EE MINOR CSE BATCH 2025 1ST SEM <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+     <!-- Timeline Item 2 -->
+      <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">REGULAR RESULT OF BE AE BATCH 2022, 2024 AND 2025</h3>
+        <p class="entry-desc">The Regular result(s) of the following programs have been declared; 1. BE AE BATCH 2022 7TH SEM DECEMBER 2025 2. BE AE BATCH 2024 3RD SEM DECEMBER 2025 <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+      <!-- Timeline Item 3 -->
+       <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">REGULAR RESULT OF BE AI & FT BATCH 2024 3RD SEM</h3>
+        <p class="entry-desc">The Regular result(s) of the following programs have been declared; 1. BE CSE AI & FT BATCH 2024 3RD SEMESTER DECEMBER 2025 <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+       <!-- Timeline Item 4 -->
+        <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">Seating Plan 21.03.2026 Morning Session</h3>
+        <p class="entry-desc">Seating Plan 21.03.2026 Morning Session <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+        <!-- Timeline Item 5 -->
+         <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">Seating Plan 20.03.2026 Evening Session</h3>
+        <p class="entry-desc">Seating Plan 20.03.2026 Evening Session <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+<!-- Timeline Item 6 -->
+ <div class="timeline-entry">
+    <div class="circular-marker">
+        <span class="circular-label">Circular</span>
+        <div class="green-line"></div>
+        <div class="green-circle"><i class="fa-regular fa-file-lines"></i></div>
+    </div>
+    <div class="entry-details">
+        <h3 class="entry-title">BECSE Batch 2024 Sem.4th Notice regarding the Industry Intervention expert talk for Computer Networks</h3>
+        <p class="entry-desc">BECSE Batch 2024 Sem.4th Notice regarding the Industry Intervention expert talk for Computer Networks <a href="#">More</a></p>
+        <span class="unread-tag">Unread</span>
+    </div>
+</div>
+        </main>
+
+        <!-- Right Column: Small Boxes [1] -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="section-title"><i class="fa-solid fa-filter"></i> Integrations</div>
+                <div class="section-links">
+                    <a href="#">Access UHostel</a>
+                    <a href="#">Access UBus</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title"><i class="fa-solid fa-link"></i> Payment Link(s)</div>
+                <div class="section-links">
+                    <div class="link-text">Fee For Fine/Activity <span class="new-tag">new</span></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title"><i class="fa-solid fa-link"></i> Links</div>
+                <div class="section-links">
+                    <div class="link-text">Book Counselling Session <span class="new-tag">new</span></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title"><i class="fa-solid fa-link"></i> Links</div>
+                <div class="section-links">
+                    <a href="#">Access LMS</a>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title"><i class="fa-solid fa-filter"></i> Filters</div>
+                <div class="filter-row">
+                    <span>Circulars</span>
+                    <span class="filter-num">188</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+function goToPerformance() {
+    window.location.href = "Liza_Kalra.html";
+}
+</script>
+
+<script>
+function logout() {
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "index.html";
+}
+</script>
+
+<script>
+function goToPerformance() {
+    window.location.href = "Liza_Kalra.html";
+}
+
+function goToHome() {
+    window.location.href = "home.html";
+}
+</script>
+
+</body>
+</html>

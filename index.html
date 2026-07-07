@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chitkara University Login</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.top-red {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: #d0342c;
+    z-index: 10;
+}
+
+/* BACKGROUND */
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('images/chitkara_log-in.jpg') no-repeat center center/cover;
+}
+
+/* DARK OVERLAY */
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+}
+
+/* LOGIN CARD */
+.login-card {
+    position: absolute;
+    right: 6%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    background: #f2f2f2;
+    padding: 20px;
+}
+
+/* LOGO ROW */
+.logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.logo-row img {
+    height: 100px;
+    margin-left: 10px;
+}
+
+    /* LABEL */
+    label {
+        font-size: 14px;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+/* INPUT */
+input, select {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 10px;
+    border: 1px solid #000;
+}
+
+/* CHECKBOX */
+.remember {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;  /* KEEP LEFT */
+    gap: 6px;                     /* PERFECT spacing */
+    font-size: 13px;
+    margin: 8px 0 12px 0;
+}
+
+/* smaller checkbox like CUIMS */
+.remember input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    background: #d0342c;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #b52b25;
+}
+
+/* LINKS */
+.links {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* APP ICONS */
+.apps {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.apps img {
+    height: 30px;
+    margin: 0 5px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+</style>
+
+</head>
+
+<div class="top-red"></div>
+
+<body>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<div class="login-card">
+
+    <!-- LOGO -->
+    <div class="logo-row">
+        <img src="images/Chitkara_logo.png">
+    </div>
+
+    <!-- FORM -->
+    <label>Username</label>
+    <input type="text" id="username">
+
+    <label>Password</label>
+    <input type="password" id="password">
+
+    <label>Session</label>
+    <select>
+        <option>JanJun2026</option>
+    </select>
+
+    <div class="remember">
+    <input type="checkbox" id="remember">
+    <label for="remember">Remember Password</label>
+</div>
+
+    <button class="btn" onclick="login()">Sign In</button>
+
+    <div class="links">
+        Forgot your password? <a href="#">Click here</a><br><br>
+        <a href="#">Privacy Policy</a>
+    </div>
+
+    <div class="apps">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg">
+    </div>
+
+    <div class="footer">
+        Mobile App Code : 800002<br>
+        Powered by CODE
+    </div>
+
+</div>
+
+<script>
+async function login() {
+    const username = document.querySelector("#username").value;
+    const password = document.querySelector("#password").value;
+
+    const res = await fetch("chitkara.json");  // ✅ fixed
+    const data = await res.json();
+
+    if (
+        username === data.user.username &&
+        password === data.user.password
+    ) {
+        localStorage.setItem("isLoggedIn", "true");  // ✅ store login
+        alert("Login Successful ✅");
+        window.location.href = "home.html";          // ✅ correct page
+    } else {
+        alert("Invalid Credentials ❌");
+    }
+}
+</script>
+
+</body>
+</html>
