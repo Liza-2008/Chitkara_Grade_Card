@@ -202,6 +202,10 @@ async function login() {
     const res = await fetch("chitkara.json");  // ✅ fixed
     const data = await res.json();
 
+    console.log("Entered Username:", username);
+    console.log("Entered Password:", password);
+    console.log("JSON:", data.user);
+
     if (
         username === data.user.username &&
         password === data.user.password
