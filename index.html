@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -195,20 +196,21 @@ input, select {
 </div>
 
 <script>
-async function login() {
-    const username = document.querySelector("#username").value;
+// ✅ Credentials ab yahin JS mein hain — koi fetch() nahi,
+// isliye file:// pe khol ke bhi (double-click se) kaam karega.
+const VALID_USER = {
+    username: "2410990525",
+    password: "20052008Liza@"
+};
+
+function login() {
+    const username = document.querySelector("#username").value.trim();
     const password = document.querySelector("#password").value;
 
-    const res = await fetch("chitkara.json");  // ✅ fixed
-    const data = await res.json();
-
-    if (
-        username === data.user.username &&
-        password === data.user.password
-    ) {
-        localStorage.setItem("isLoggedIn", "true");  // ✅ store login
+    if (username === VALID_USER.username && password === VALID_USER.password) {
+        localStorage.setItem("isLoggedIn", "true");
         alert("Login Successful ✅");
-        window.location.href = "home.html";          // ✅ correct page
+        window.location.href = "home.html";
     } else {
         alert("Invalid Credentials ❌");
     }
